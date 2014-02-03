@@ -8,6 +8,8 @@ import tk.hintss.minigame.ServerManager;
 public class PlayerQuitListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
+        // removes player from games/spectating when they disconnect
+
         if (ServerManager.getInstance().isPlayer(event.getPlayer())) {
             ServerManager.getInstance().getGameByPlayer(event.getPlayer()).playerQuit(event.getPlayer());
         }

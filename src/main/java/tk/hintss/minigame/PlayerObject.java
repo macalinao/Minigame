@@ -11,18 +11,26 @@ public class PlayerObject extends PlayerOrigin {
     }
 
     public int getKills() {
+        // gets the number of kills this player has
+
         return kills;
     }
 
     public void addKill() {
+        // adds one to this player's kill counter
+
         kills++;
     }
 
     public int getDeaths() {
+        // gets the number of times the player has died in this game
+
         return deaths;
     }
 
     public void addDeath() {
+        // adds one to this player's death counter
+
         deaths++;
     }
 }

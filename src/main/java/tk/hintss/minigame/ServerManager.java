@@ -79,6 +79,8 @@ public class ServerManager {
     }
 
     public void killGames() {
+        // ends all the games. Is called onDisable
+
         for (GameObject g : nameToGame.values()) {
             g.killGame();
         }

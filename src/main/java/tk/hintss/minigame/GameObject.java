@@ -134,6 +134,8 @@ public class GameObject extends Arena {
     // TODO - game flow
 
     public PlayerObject getPlayerObject(Player p) {
+        // gets the playerobject for a player
+
         return players.get(p.getName());
     }
 
