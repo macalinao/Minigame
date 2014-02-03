@@ -1,0 +1,22 @@
+package tk.hintss.minigame;
+
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+public class Statics {
+    public static String getGameName() {
+        return "Minigame";
+    }
+
+    public static String getPlayerJoinMessage(Player p) {
+        return ChatColor.AQUA + p.getName() + ChatColor.GREEN + " joined the game!";
+    }
+
+    public static String getPlayerQuitMessage(Player p) {
+        return ChatColor.AQUA + p.getName() + ChatColor.GREEN + " left the game!";
+    }
+
+    public static String getWinMessage(Player p) {
+        return ChatColor.AQUA + p.getName() + ChatColor.GREEN + " won the game!";
+    }
+}
