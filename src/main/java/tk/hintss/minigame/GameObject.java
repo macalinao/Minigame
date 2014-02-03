@@ -39,7 +39,7 @@ public class GameObject extends Arena {
 
     private void removePlayer(Player player) {
         // removes a player from the game
-        // does not do any checks for wins, as it might be called by reload logic
+        // does not do any checks for wins, as this might be called by reload logic
 
         players.get(player.getName()).restore(player);
         players.remove(player.getName());
@@ -55,7 +55,7 @@ public class GameObject extends Arena {
         // called when a player loses
 
         removePlayer(p);
-        addSpectator(p);
+        addSpectator(p, true);
 
         checkIfWin();
     }
@@ -70,7 +70,8 @@ public class GameObject extends Arena {
     }
 
     private void addSpectator(Player player, boolean isPlayer) {
-        // adds a spectator to the game, saves inv, sets invisibility, etc
+        // adds a spectator to the game, with the added option of setting if this spectator should be a player
+        // (which is used by addPlayer and by playerLost)
 
         spectators.put(player.getName(), new PlayerOrigin(player, isPlayer));
         player.getInventory().clear();
@@ -87,6 +88,8 @@ public class GameObject extends Arena {
     }
 
     public void addSpectator(Player player) {
+        // adds a spectator to the game
+
         addSpectator(player, false);
     }
 

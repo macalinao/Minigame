@@ -8,6 +8,8 @@ public class ServerManager {
     private Minigame plugin;
     private static ServerManager instance;
 
+    private HashMap<String, GameObject> nameToGame = new HashMap<String, GameObject>();
+
     private HashMap<String, GameObject> playerToGame = new HashMap<String, GameObject>();
     private HashMap<String, GameObject> spectatorrToGame = new HashMap<String, GameObject>();
 
@@ -56,13 +58,9 @@ public class ServerManager {
         return spectatorrToGame.containsKey(player.getName());
     }
 
-    public boolean isInvolved(Player p) {
-        // returns if the player is a player or a spectator
-
-        return (isPlayer(p) || isSpectator(p));
-    }
-
     public GameObject getGameByPlayer(Player p) {
+        // gets the game that a player (player as in org.bukkit, not as in minigame) is in
+
         if (isPlayer(p)) {
             return playerToGame.get(p.getName());
         } else if (isSpectator(p)) {
@@ -70,5 +68,11 @@ public class ServerManager {
         } else {
             return null;
         }
+    }
+
+    public GameObject getGameByName(String name) {
+        // gets a GameObject from the Arena's name
+
+        return nameToGame.get(name);
     }
 }

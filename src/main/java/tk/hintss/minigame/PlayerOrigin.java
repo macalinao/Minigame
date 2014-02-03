@@ -21,7 +21,7 @@ public class PlayerOrigin {
 
         this.name = player.getName();
         this.isPlayer = isPlayer;
-        
+
         this.originLoc = player.getLocation();
         this.inv = player.getInventory().getContents();
         this.armor = player.getInventory().getArmorContents();
