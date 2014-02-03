@@ -78,6 +78,12 @@ public class ServerManager {
         }
     }
 
+    public void killGames() {
+        for (GameObject g : nameToGame.values()) {
+            g.killGame();
+        }
+    }
+
     public GameObject getGameByName(String name) {
         // gets a GameObject from the Arena's name
 

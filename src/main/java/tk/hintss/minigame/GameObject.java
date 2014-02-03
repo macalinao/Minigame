@@ -77,6 +77,12 @@ public class GameObject extends Arena {
         // adds a spectator to the game, with the added option of setting if this spectator should be a player
         // (which is used by addPlayer and by playerLost)
 
+        if (ServerManager.getInstance().isPlayer(player)) {
+            ServerManager.getInstance().getGameByPlayer(player).playerQuit(player);
+        } else if (ServerManager.getInstance().isSpectator(player)) {
+            ServerManager.getInstance().getGameByPlayer(player).removeSpectator(player);
+        }
+
         spectators.put(player.getName(), new PlayerOrigin(player, isPlayer));
         player.getInventory().clear();
 
@@ -110,9 +116,26 @@ public class GameObject extends Arena {
         }
     }
 
+    public void killGame() {
+        // used on onDisable or when the game is deleted to return player's stuff, remove from hashmaps, etc
+
+        broadcast(Statics.getReloadMessage());
+
+        for (String p : players.keySet()) {
+            removePlayer(Bukkit.getPlayer(p));
+        }
+
+        for (String p : spectators.keySet()) {
+            removeSpectator(Bukkit.getPlayer(p));
+        }
+    }
     // TODO - kill game thing
 
     // TODO - game flow
+
+    public PlayerObject getPlayerObject(Player p) {
+        return players.get(p.getName());
+    }
 
     private void checkIfWin() {
         // checks if the game has a winner
