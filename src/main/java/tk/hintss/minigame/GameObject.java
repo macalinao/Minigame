@@ -149,6 +149,12 @@ public class GameObject extends Arena {
         }
     }
 
+    public GameState getCurrentState() {
+        // gets the GameState that this game is currently in
+
+        return currentState;
+    }
+
     public void broadcast(String message) {
         // sends a message to all players and spectators in this game instance
 

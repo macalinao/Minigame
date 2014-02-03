@@ -15,10 +15,15 @@ public enum GameState {
     }
 
     public boolean getCanJoin() {
+        // gets if this is a state where people can join the game
+        // if it's not, they will be added as a spectator
+
         return canJoin;
     }
 
     public boolean partOfGame() {
+        // gets if this state is part of the actual game
+
         return partOfGame;
     }
 }
