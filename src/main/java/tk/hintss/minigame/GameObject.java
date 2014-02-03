@@ -11,14 +11,14 @@ public class GameObject extends Arena {
 
     private GameState currentState = GameState.WAITING_FOR_PLAYERS;
 
-    // TODO - global player -> game lookups
-
     public boolean addPlayer(Player player) {
         // adds a player to the game, teleports them in, saves their inv, all that jazz
 
         if (currentState.getCanJoin()) {
             players.put(player.getName(), new PlayerOrigin(player));
             player.getInventory().clear();
+
+            ServerManager.getInstance().addPlayer(player, this);
 
             for (String p : spectators.keySet()) {
                 player.hidePlayer(Bukkit.getPlayer(p));
@@ -36,7 +36,9 @@ public class GameObject extends Arena {
         // does not do any checks for wins, as it might be called by reload logic
 
         players.get(player.getName()).restore(player);
-        spectators.remove(player.getName());
+        players.remove(player.getName());
+
+        ServerManager.getInstance().removePlayer(player);
 
         for (String p : spectators.keySet()) {
             player.showPlayer(Bukkit.getPlayer(p));
@@ -67,6 +69,8 @@ public class GameObject extends Arena {
         spectators.put(player.getName(), new PlayerOrigin(player));
         player.getInventory().clear();
 
+        ServerManager.getInstance().addSpectator(player, this);
+
         // TODO - give stuffs
 
         for (String p : players.keySet()) {
@@ -81,6 +85,8 @@ public class GameObject extends Arena {
 
         spectators.get(player.getName()).restore(player);
         spectators.remove(player.getName());
+
+        ServerManager.getInstance().removeSpectator(player);
 
         for (String p : players.keySet()) {
             Bukkit.getPlayer(p).showPlayer(player);
