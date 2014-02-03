@@ -16,7 +16,11 @@ public class Statics {
         return ChatColor.AQUA + p.getName() + ChatColor.GREEN + " left the game!";
     }
 
-    public static String getWinMessage(Player p) {
+    public static String getPlayerWinMessage(Player p) {
         return ChatColor.AQUA + p.getName() + ChatColor.GREEN + " won the game!";
+    }
+
+    public static String getReloadMessage() {
+        return ChatColor.RED + "The game was ended because the plugin was reloaded.";
     }
 }
