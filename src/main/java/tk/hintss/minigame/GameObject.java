@@ -6,10 +6,14 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 public class GameObject extends Arena {
-    private HashMap<String, PlayerOrigin> players = new HashMap<String, PlayerOrigin>();
+    private HashMap<String, PlayerObject> players = new HashMap<String, PlayerObject>();
     private HashMap<String, PlayerOrigin> spectators = new HashMap<String, PlayerOrigin>();
 
     private GameState currentState = GameState.WAITING_FOR_PLAYERS;
+
+    public GameObject(String s) {
+        super(s);
+    }
 
     public void addPlayer(Player player) {
         // adds a player to the game, teleports them in, saves their inv, all that jazz
@@ -21,7 +25,7 @@ public class GameObject extends Arena {
                 ServerManager.getInstance().getGameByPlayer(player).removeSpectator(player);
             }
 
-            players.put(player.getName(), new PlayerOrigin(player, true));
+            players.put(player.getName(), new PlayerObject(player, true));
 
             player.getInventory().clear();
 

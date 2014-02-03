@@ -9,13 +9,21 @@ public class ServerManager {
     private static ServerManager instance;
 
     private HashMap<String, GameObject> nameToGame = new HashMap<String, GameObject>();
+    private HashMap<String, Arena> nameToArena = new HashMap<String, Arena>();
 
     private HashMap<String, GameObject> playerToGame = new HashMap<String, GameObject>();
     private HashMap<String, GameObject> spectatorrToGame = new HashMap<String, GameObject>();
 
     public ServerManager(Minigame plugin) {
+        // load arenas, etc, etc
+
         this.plugin = plugin;
         instance = this;
+
+        for (String s : plugin.getConfig().getStringList("arenas")) {
+            GameObject g = new GameObject(s);
+            nameToGame.put(g.getName(), g);
+        }
     }
 
     public static ServerManager getInstance() {
@@ -74,5 +82,17 @@ public class ServerManager {
         // gets a GameObject from the Arena's name
 
         return nameToGame.get(name);
+    }
+
+    public Arena getArenaByName(String name) {
+        // gets an arena from its name
+
+        return nameToArena.get(name); 
+    }
+
+    public void newArena(String name) {
+        // makes a new arena with the given name
+
+        nameToArena.put(name, new Arena(name));
     }
 }
