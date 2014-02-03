@@ -11,11 +11,18 @@ public class GameObject extends Arena {
 
     private GameState currentState = GameState.WAITING_FOR_PLAYERS;
 
-    public boolean addPlayer(Player player) {
+    public void addPlayer(Player player) {
         // adds a player to the game, teleports them in, saves their inv, all that jazz
 
         if (currentState.getCanJoin()) {
-            players.put(player.getName(), new PlayerOrigin(player));
+            if (ServerManager.getInstance().isPlayer(player)) {
+                ServerManager.getInstance().getGameByPlayer(player).playerQuit(player);
+            } else if (ServerManager.getInstance().isSpectator(player)) {
+                ServerManager.getInstance().getGameByPlayer(player).removeSpectator(player);
+            }
+
+            players.put(player.getName(), new PlayerOrigin(player, true));
+
             player.getInventory().clear();
 
             ServerManager.getInstance().addPlayer(player, this);
@@ -25,9 +32,8 @@ public class GameObject extends Arena {
             }
 
             player.teleport(getPlayerSpawn());
-            return true;
         } else {
-            return false;
+            addSpectator(player, true);
         }
     }
 
@@ -45,7 +51,7 @@ public class GameObject extends Arena {
         }
     }
 
-    public void PlayerLost(Player p) {
+    public void playerLost(Player p) {
         // called when a player loses
 
         removePlayer(p);
@@ -54,7 +60,7 @@ public class GameObject extends Arena {
         checkIfWin();
     }
 
-    public void PlayerQuit(Player p) {
+    public void playerQuit(Player p) {
         // called when a player quits the game (as in the minigame, not necesarily the game game)
 
         removePlayer(p);
@@ -63,21 +69,25 @@ public class GameObject extends Arena {
         checkIfWin();
     }
 
-    public void addSpectator(Player player) {
+    private void addSpectator(Player player, boolean isPlayer) {
         // adds a spectator to the game, saves inv, sets invisibility, etc
 
-        spectators.put(player.getName(), new PlayerOrigin(player));
+        spectators.put(player.getName(), new PlayerOrigin(player, isPlayer));
         player.getInventory().clear();
 
         ServerManager.getInstance().addSpectator(player, this);
 
-        // TODO - give stuffs
+        // TODO - give stuffs (spectating stuffs)
 
         for (String p : players.keySet()) {
             Bukkit.getPlayer(p).hidePlayer(player);
         }
 
         player.teleport(getSpectatorSpawn());
+    }
+
+    public void addSpectator(Player player) {
+        addSpectator(player, false);
     }
 
     public void removeSpectator(Player player) {

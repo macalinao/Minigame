@@ -55,4 +55,20 @@ public class ServerManager {
 
         return spectatorrToGame.containsKey(player.getName());
     }
+
+    public boolean isInvolved(Player p) {
+        // returns if the player is a player or a spectator
+
+        return (isPlayer(p) || isSpectator(p));
+    }
+
+    public GameObject getGameByPlayer(Player p) {
+        if (isPlayer(p)) {
+            return playerToGame.get(p.getName());
+        } else if (isSpectator(p)) {
+            return spectatorrToGame.get(p.getName());
+        } else {
+            return null;
+        }
+    }
 }

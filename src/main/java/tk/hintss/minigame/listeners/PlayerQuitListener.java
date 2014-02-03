@@ -9,11 +9,11 @@ public class PlayerQuitListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         if (ServerManager.getInstance().isPlayer(event.getPlayer())) {
-            ServerManager.getInstance().removePlayer(event.getPlayer());
+            ServerManager.getInstance().getGameByPlayer(event.getPlayer()).playerQuit(event.getPlayer());
         }
 
         if (ServerManager.getInstance().isSpectator(event.getPlayer())) {
-            ServerManager.getInstance().removeSpectator(event.getPlayer());
+            ServerManager.getInstance().getGameByPlayer(event.getPlayer()).removeSpectator(event.getPlayer());
         }
     }
 }

@@ -23,4 +23,8 @@ public class Statics {
     public static String getReloadMessage() {
         return ChatColor.RED + "The game was ended because the plugin was reloaded.";
     }
+
+    public static String getNextGameMessage() {
+        return ChatColor.GREEN + "A game is currently going, you will be put in the next game.";
+    }
 }

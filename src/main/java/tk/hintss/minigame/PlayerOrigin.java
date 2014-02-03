@@ -8,14 +8,18 @@ public class PlayerOrigin {
     // stores data about where players were and what they had before they joined/spectated a game
 
     private final String name;
+    // isPlayer stores if the player joined the game as a player (and not a spectator)
+    // if a game ends and this is true, they are auto-added to the next game
+    private boolean isPlayer;
     private final Location originLoc;
     private final ItemStack[] inv;
     private final ItemStack[] armor;
 
-    public PlayerOrigin(Player player) {
+    public PlayerOrigin(Player player, boolean isPlayer) {
         // stores the player's data
 
         this.name = player.getName();
+        this.isPlayer = isPlayer;
         this.originLoc = player.getLocation();
         this.inv = player.getInventory().getContents();
         this.armor = player.getInventory().getArmorContents();
