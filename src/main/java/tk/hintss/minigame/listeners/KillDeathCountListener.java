@@ -11,11 +11,13 @@ public class KillDeathCountListener implements Listener {
         // increments kill/death counters
 
         if (ServerManager.getInstance().isPlayer(event.getEntity())) {
-            ServerManager.getInstance().getGameByPlayer(event.getEntity()).getPlayerObject(event.getEntity()).addDeath();
-        }
+            if (ServerManager.getInstance().getGameByPlayer(event.getEntity()).getCurrentState().partOfGame()) {
+                ServerManager.getInstance().getGameByPlayer(event.getEntity()).getPlayerObject(event.getEntity()).addDeath();
 
-        if (event.getEntity().getKiller() != null && ServerManager.getInstance().isPlayer(event.getEntity())) {
-            ServerManager.getInstance().getGameByPlayer(event.getEntity().getKiller()).getPlayerObject(event.getEntity().getKiller()).addKill();
+                if (event.getEntity().getKiller() != null && ServerManager.getInstance().isPlayer(event.getEntity())) {
+                    ServerManager.getInstance().getGameByPlayer(event.getEntity().getKiller()).getPlayerObject(event.getEntity().getKiller()).addKill();
+                }
+            }
         }
     }
 }
