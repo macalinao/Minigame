@@ -14,15 +14,18 @@ public class PlayerOrigin {
     private final Location originLoc;
     private final ItemStack[] inv;
     private final ItemStack[] armor;
+    private final int exp;
 
     public PlayerOrigin(Player player, boolean isPlayer) {
         // stores the player's data
 
         this.name = player.getName();
         this.isPlayer = isPlayer;
+        
         this.originLoc = player.getLocation();
         this.inv = player.getInventory().getContents();
         this.armor = player.getInventory().getArmorContents();
+        this.exp = player.getTotalExperience();
     }
 
     public void restore(Player player) {
@@ -33,5 +36,6 @@ public class PlayerOrigin {
         player.teleport(originLoc);
         player.getInventory().setContents(inv);
         player.getInventory().setArmorContents(armor);
+        player.setTotalExperience(exp);
     }
 }
