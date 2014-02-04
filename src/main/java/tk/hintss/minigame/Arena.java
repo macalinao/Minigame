@@ -6,6 +6,9 @@ import tk.hintss.minigame.util.LocationUtil;
 public class Arena {
     private String name;
 
+    private int minPlayers;
+    private int maxPlayers;
+
     private Location playerSpawn;
     private Location spectatorSpawn;
 
@@ -20,14 +23,25 @@ public class Arena {
 
         name = s[0];
 
-        playerSpawn = LocationUtil.locationFromString(s[1]);
-        spectatorSpawn = LocationUtil.locationFromString(s[2]);
+        minPlayers = Integer.valueOf(s[1]);
+        maxPlayers = Integer.valueOf(s[2]);
+
+        playerSpawn = LocationUtil.locationFromString(s[3]);
+        spectatorSpawn = LocationUtil.locationFromString(s[4]);
     }
 
     public String getName() {
         // returns the arena name
 
         return name;
+    }
+
+    public int getMinPlayers() {
+        return minPlayers;
+    }
+
+    public int getMaxPlayers() {
+        return maxPlayers;
     }
 
     public Location getPlayerSpawn() {

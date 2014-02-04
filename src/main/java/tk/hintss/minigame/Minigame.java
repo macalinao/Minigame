@@ -5,8 +5,12 @@ import tk.hintss.minigame.listeners.KillDeathCountListener;
 import tk.hintss.minigame.listeners.PlayerQuitListener;
 
 public class Minigame extends JavaPlugin {
+    public static Minigame instance;
+
     @Override
     public void onEnable() {
+        instance = this;
+
         new ServerManager(this);
 
         getServer().getPluginManager().registerEvents(new KillDeathCountListener(), this);
@@ -16,5 +20,9 @@ public class Minigame extends JavaPlugin {
     @Override
     public void onDisable() {
         ServerManager.getInstance().killGames();
+    }
+
+    public static Minigame getInstance() {
+        return instance;
     }
 }

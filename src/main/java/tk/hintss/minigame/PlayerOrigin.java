@@ -38,4 +38,12 @@ public class PlayerOrigin {
         player.getInventory().setArmorContents(armor);
         player.setTotalExperience(exp);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isPlayer() {
+        return isPlayer;
+    }
 }

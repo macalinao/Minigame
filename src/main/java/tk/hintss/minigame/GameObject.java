@@ -2,6 +2,7 @@ package tk.hintss.minigame;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
@@ -11,6 +12,8 @@ public class GameObject extends Arena {
 
     private GameState currentState = GameState.WAITING_FOR_PLAYERS;
 
+    private BukkitRunnable timerObject;
+
     public GameObject(String s) {
         super(s);
     }
@@ -18,7 +21,7 @@ public class GameObject extends Arena {
     public void addPlayer(Player player) {
         // adds a player to the game, teleports them in, saves their inv, all that jazz
 
-        if (currentState.getCanJoin()) {
+        if (currentState.getCanJoin() && players.size() < getMaxPlayers()) {
             if (ServerManager.getInstance().isPlayer(player)) {
                 ServerManager.getInstance().getGameByPlayer(player).playerQuit(player);
             } else if (ServerManager.getInstance().isSpectator(player)) {
@@ -36,8 +39,15 @@ public class GameObject extends Arena {
             }
 
             player.teleport(getPlayerSpawn());
+
+            broadcast(Statics.getPlayerJoinMessage(player, players.size(), getMinPlayers(), getMaxPlayers()));
+
+            if (players.size() >= getMinPlayers()) {
+                startCountDown();
+            }
         } else {
             addSpectator(player, true);
+            player.sendMessage(Statics.getNextGameMessage());
         }
     }
 
@@ -61,6 +71,7 @@ public class GameObject extends Arena {
         removePlayer(p);
         addSpectator(p, true);
 
+        checkPlayerCount();
         checkIfWin();
     }
 
@@ -70,6 +81,7 @@ public class GameObject extends Arena {
         removePlayer(p);
         broadcast(Statics.getPlayerQuitMessage(p));
 
+        checkPlayerCount();
         checkIfWin();
     }
 
@@ -129,9 +141,6 @@ public class GameObject extends Arena {
             removeSpectator(Bukkit.getPlayer(p));
         }
     }
-    // TODO - kill game thing
-
-    // TODO - game flow
 
     public PlayerObject getPlayerObject(Player p) {
         // gets the playerobject for a player
@@ -142,10 +151,87 @@ public class GameObject extends Arena {
     private void checkIfWin() {
         // checks if the game has a winner
         // is called by PlayerLost(Player) and PlayerQuit(Player)
+        // (and not by removePlayer(Player) because reasons
 
-        // TODO - this
         if (currentState.partOfGame()) {
+            if (players.size() == 1) {
+                for (String p : players.keySet()) {
+                    broadcast(Statics.getPlayerWinMessage(Bukkit.getPlayer(p)));
 
+                    onWin();
+                }
+            } else if (players.size() <= 0) {
+                onWin();
+            }
+        }
+    }
+
+    public void checkPlayerCount() {
+        // run by the playerQuit, checks if the player count is still high enough to start the game
+
+        if (currentState == GameState.GAME_STARTING && players.size() < getMinPlayers()) {
+            broadcast(Statics.getTooFewMessage());
+            timerObject.cancel();
+        }
+    }
+
+    public void startCountDown() {
+        // runs when the minPlayers is met
+
+        if (currentState == GameState.WAITING_FOR_PLAYERS) {
+            currentState = GameState.GAME_STARTING;
+
+            broadcast(Statics.getPlayersMetMessage(getMinPlayers()));
+            timerObject = new BukkitRunnable() {
+                @Override
+                public void run() {
+                    startGame();
+                }
+            };
+            timerObject.runTaskLater(Minigame.getInstance(), Statics.getGameStartDelay());
+        }
+    }
+
+    public void startGame() {
+        // runs when the start countdown is over
+
+        currentState = GameState.GAME_GOING;
+        broadcast(Statics.getGameStartMessage());
+    }
+
+    public void onWin() {
+        // runs when a player wins/when there is somehow 0 players
+
+        currentState = GameState.GAME_ENDING;
+
+        broadcast(Statics.getGameOverMessage());
+
+        for (String p : players.keySet()) {
+            removePlayer(Bukkit.getPlayer(p));
+            addSpectator(Bukkit.getPlayer(p), true);
+        }
+
+        timerObject = new BukkitRunnable() {
+            @Override
+            public void run() {
+                resetGame();
+            }
+        };
+        timerObject.runTaskLater(Minigame.getInstance(), Statics.getGameResetDelay());
+    }
+
+    public void resetGame() {
+        // runs some time after onWin, resets game & adds spectating players to game
+
+        currentState = GameState.WAITING_FOR_PLAYERS;
+
+        broadcast(Statics.getResetMessage());
+
+        for (PlayerOrigin p : spectators.values()) {
+            if (p.isPlayer()) {
+                addPlayer(Bukkit.getPlayer(p.getName()));
+                Bukkit.getPlayer(p.getName()).sendMessage(Statics.getAutoaddedMessage());
+            }
         }
     }
 
