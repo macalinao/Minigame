@@ -146,6 +146,10 @@ public class GameObject extends Arena {
         for (String p : spectators.keySet()) {
             removeSpectator(Bukkit.getPlayer(p));
         }
+
+        if (Statics.resetWorlds) {
+            WorldResetter.resetWorld(getPlayerSpawn().getWorld().getName());
+        }
     }
 
     public PlayerObject getPlayerObject(Player p) {
