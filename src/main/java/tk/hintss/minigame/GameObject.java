@@ -3,6 +3,7 @@ package tk.hintss.minigame;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import tk.hintss.minigame.util.WorldResetter;
 
 import java.util.HashMap;
 
@@ -16,6 +17,10 @@ public class GameObject extends Arena {
 
     public GameObject(String s) {
         super(s);
+
+        if (Statics.resetWorlds) {
+            WorldResetter.resetWorld(getPlayerSpawn().getWorld().getName());
+        }
     }
 
     public void addPlayer(Player player) {
@@ -68,11 +73,12 @@ public class GameObject extends Arena {
     public void playerLost(Player p) {
         // called when a player loses
 
-        removePlayer(p);
-        addSpectator(p, true);
+        if (currentState.partOfGame()) {
+            removePlayer(p);
+            addSpectator(p, true);
 
-        checkPlayerCount();
-        checkIfWin();
+            checkIfWin();
+        }
     }
 
     public void playerQuit(Player p) {
@@ -169,9 +175,21 @@ public class GameObject extends Arena {
     public void checkPlayerCount() {
         // run by the playerQuit, checks if the player count is still high enough to start the game
 
-        if (currentState == GameState.GAME_STARTING && players.size() < getMinPlayers()) {
-            broadcast(Statics.getTooFewMessage());
-            timerObject.cancel();
+        if (currentState == GameState.GAME_STARTING) {
+            if (players.size() < getMinPlayers()) {
+                broadcast(Statics.getTooFewMessage());
+                timerObject.cancel();
+            }
+
+            if (players.size() < getMaxPlayers()) {
+                int diff = getMaxPlayers() - players.size();
+
+                for (PlayerOrigin p : spectators.values()) {
+                    if (diff > 0 && p.isPlayer()) {
+                        addPlayer(Bukkit.getPlayer(p.getName()));
+                    }
+                }
+            }
         }
     }
 
@@ -188,7 +206,7 @@ public class GameObject extends Arena {
                     startGame();
                 }
             };
-            timerObject.runTaskLater(Minigame.getInstance(), Statics.getGameStartDelay());
+            timerObject.runTaskLater(Minigame.getInstance(), Statics.gameStartDelay);
         }
     }
 
@@ -217,7 +235,7 @@ public class GameObject extends Arena {
                 resetGame();
             }
         };
-        timerObject.runTaskLater(Minigame.getInstance(), Statics.getGameResetDelay());
+        timerObject.runTaskLater(Minigame.getInstance(), Statics.gameResetDelay);
     }
 
     public void resetGame() {
@@ -227,11 +245,18 @@ public class GameObject extends Arena {
 
         broadcast(Statics.getResetMessage());
 
+        int count = 0;
+
         for (PlayerOrigin p : spectators.values()) {
-            if (p.isPlayer()) {
+            if (p.isPlayer() && count <= getMaxPlayers()) {
                 addPlayer(Bukkit.getPlayer(p.getName()));
                 Bukkit.getPlayer(p.getName()).sendMessage(Statics.getAutoaddedMessage());
+                count++;
             }
+        }
+
+        if (Statics.resetWorlds) {
+            WorldResetter.resetWorld(getPlayerSpawn().getWorld().getName());
         }
     }
 

@@ -4,26 +4,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class Statics {
-    public static String getGameName() {
-        return "Minigame";
-    }
+    public static final String gameName = "Minigame";
 
-    public static int getGameStartDelay() {
-        // time (in ticks) from getting min players to starting the game
+    public static final boolean resetWorlds = true;
 
-        return 20 * 60;
-    }
-
-    public static int getGameResetDelay() {
-        // time (in ticks) from game ending to starting next game
-
-        return 20 * 20;
-    }
+    public static final int gameStartDelay = 20*60;
+    public static final int gameResetDelay = 20*20;
 
     public static String getPlayersMetMessage(int minPlayers) {
         // when we get enough players to start the game countdown
 
-        return ChatColor.GREEN + "We have " + String.valueOf(minPlayers) + " players, the game will start in " + Integer.valueOf(getGameStartDelay() / 20) + " seconds!";
+        return ChatColor.GREEN + "We have " + String.valueOf(minPlayers) + " players, the game will start in " + Integer.valueOf(gameStartDelay / 20) + " seconds!";
     }
 
     public static String getTooFewMessage() {

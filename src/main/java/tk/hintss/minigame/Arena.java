@@ -37,10 +37,14 @@ public class Arena {
     }
 
     public int getMinPlayers() {
+        // gets the number of players needed to start a game in this arena
+
         return minPlayers;
     }
 
     public int getMaxPlayers() {
+        // gets the max players this arena supports
+
         return maxPlayers;
     }
 
