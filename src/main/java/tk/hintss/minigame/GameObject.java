@@ -3,9 +3,12 @@ package tk.hintss.minigame;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import tk.hintss.minigame.util.CompassUtil;
 import tk.hintss.minigame.util.WorldResetter;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class GameObject extends Arena {
     private HashMap<String, PlayerObject> players = new HashMap<String, PlayerObject>();
@@ -68,6 +71,8 @@ public class GameObject extends Arena {
         for (String p : spectators.keySet()) {
             player.showPlayer(Bukkit.getPlayer(p));
         }
+
+        CompassUtil.resetCompass(player);
     }
 
     public void playerLost(Player p) {
@@ -132,6 +137,8 @@ public class GameObject extends Arena {
         for (String p : players.keySet()) {
             Bukkit.getPlayer(p).showPlayer(player);
         }
+
+        CompassUtil.resetCompass(player);
     }
 
     public void killGame() {
@@ -228,9 +235,11 @@ public class GameObject extends Arena {
 
         broadcast(Statics.getGameOverMessage());
 
-        for (String p : players.keySet()) {
-            removePlayer(Bukkit.getPlayer(p));
-            addSpectator(Bukkit.getPlayer(p), true);
+        Iterator<Map.Entry<String, PlayerObject>> iter = players.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String, PlayerObject> entry = iter.next();
+            removePlayer(Bukkit.getPlayer(entry.getKey()));
+            addSpectator(Bukkit.getPlayer(entry.getKey()));
         }
 
         timerObject = new BukkitRunnable() {
@@ -251,10 +260,12 @@ public class GameObject extends Arena {
 
         int count = 0;
 
-        for (PlayerOrigin p : spectators.values()) {
-            if (p.isPlayer() && count <= getMaxPlayers()) {
-                addPlayer(Bukkit.getPlayer(p.getName()));
-                Bukkit.getPlayer(p.getName()).sendMessage(Statics.getAutoaddedMessage());
+        Iterator<Map.Entry<String, PlayerOrigin>> iter = spectators.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String, PlayerOrigin> entry = iter.next();
+            if (entry.getValue().isPlayer() && count <= getMaxPlayers()) {
+                addPlayer(Bukkit.getPlayer(entry.getKey()));
+                Bukkit.getPlayer(entry.getKey()).sendMessage(Statics.getAutoaddedMessage());
                 count++;
             }
         }
