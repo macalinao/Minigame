@@ -12,14 +12,18 @@ public class Arena {
     private Location playerSpawn;
     private Location spectatorSpawn;
 
-    public Arena(String name) {
-        // used to create a blank new arena
+    public Arena(String name, int minPlayers, int maxPlayers) {
+        // constructor for making a new Arena
 
         this.name = name;
+        this.minPlayers = minPlayers;
+        this.maxPlayers = maxPlayers;
     }
 
-    public Arena(String[] s) {
+    public Arena(String line) {
         // used by ServerManager/GameObject to load an arena from config
+
+        String[] s = line.split("|");
 
         name = s[0];
 

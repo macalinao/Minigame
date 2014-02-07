@@ -98,9 +98,9 @@ public class ServerManager {
         return nameToArena.get(name); 
     }
 
-    public void newArena(String name) {
+    public void newArena(String name, int minPlayers, int maxPlayers) {
         // makes a new arena with the given name
 
-        nameToArena.put(name, new Arena(name));
+        nameToArena.put(name, new Arena(name, minPlayers, maxPlayers));
     }
 }
