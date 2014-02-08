@@ -67,8 +67,6 @@ public class ServerManager {
     }
 
     public GameObject getGameByPlayer(Player p) {
-        // gets the game that a player (player as in org.bukkit, not as in minigame) is in
-
         if (isPlayer(p)) {
             return playerToGame.get(p.getName());
         } else if (isSpectator(p)) {
@@ -79,28 +77,20 @@ public class ServerManager {
     }
 
     public void killGames() {
-        // ends all the games. Is called onDisable
-
         for (GameObject g : nameToGame.values()) {
             g.killGame();
         }
     }
 
     public GameObject getGameByName(String name) {
-        // gets a GameObject from the Arena's name
-
         return nameToGame.get(name);
     }
 
     public Arena getArenaByName(String name) {
-        // gets an arena from its name
-
-        return nameToArena.get(name); 
+        return nameToArena.get(name);
     }
 
     public void newArena(String name, int minPlayers, int maxPlayers) {
-        // makes a new arena with the given name
-
         nameToArena.put(name, new Arena(name, minPlayers, maxPlayers));
     }
 }

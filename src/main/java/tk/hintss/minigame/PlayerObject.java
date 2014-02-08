@@ -11,8 +11,6 @@ public class PlayerObject extends PlayerOrigin {
     }
 
     public int getKills() {
-        // gets the number of kills this player has
-
         return kills;
     }
 
@@ -23,8 +21,6 @@ public class PlayerObject extends PlayerOrigin {
     }
 
     public int getDeaths() {
-        // gets the number of times the player has died in this game
-
         return deaths;
     }
 

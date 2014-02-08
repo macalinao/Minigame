@@ -11,8 +11,6 @@ import java.util.HashMap;
 
 public class WorldResetter {
     public static void resetWorld(String name) {
-        // restores map to state on disk
-
         World w = Bukkit.getWorld(name);
 
         HashMap<Player, Location> playerLocs = new HashMap<Player, Location>();

@@ -13,6 +13,8 @@ public class Minigame extends JavaPlugin {
 
         new ServerManager(this);
 
+        getCommand(Statics.gameName.toLowerCase()).setExecutor(new MinigameCommand());
+
         getServer().getPluginManager().registerEvents(new KillDeathCountListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
     }

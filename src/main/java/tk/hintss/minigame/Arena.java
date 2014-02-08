@@ -13,7 +13,7 @@ public class Arena {
     private Location spectatorSpawn;
 
     public Arena(String name, int minPlayers, int maxPlayers) {
-        // constructor for making a new Arena
+        // constructor for making a new Arena (as in in the game, not as in the object)
 
         this.name = name;
         this.minPlayers = minPlayers;
@@ -35,32 +35,38 @@ public class Arena {
     }
 
     public String getName() {
-        // returns the arena name
-
         return name;
     }
 
-    public int getMinPlayers() {
-        // gets the number of players needed to start a game in this arena
+    public void setMinPlayers(int minPlayers) {
+        this.minPlayers = minPlayers;
+    }
 
+    public int getMinPlayers() {
         return minPlayers;
     }
 
-    public int getMaxPlayers() {
-        // gets the max players this arena supports
+    public void setMaxPlayers(int maxPlayers) {
+        this.maxPlayers = maxPlayers;
+    }
 
+    public int getMaxPlayers() {
         return maxPlayers;
     }
 
-    public Location getPlayerSpawn() {
-        // returns the location where players are teleported to on joining the arena
+    public void setPlayerSpawn(Location loc) {
+        this.playerSpawn = loc;
+    }
 
+    public Location getPlayerSpawn() {
         return playerSpawn;
     }
 
-    public Location getSpectatorSpawn() {
-        // returns the location where spectators are teleported to on joining the arena
+    public void setSpectatorSpawn(Location loc) {
+        this.spectatorSpawn = loc;
+    }
 
+    public Location getSpectatorSpawn() {
         return spectatorSpawn;
     }
 }

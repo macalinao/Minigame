@@ -97,9 +97,6 @@ public class GameObject extends Arena {
     }
 
     private void addSpectator(Player player, boolean isPlayer) {
-        // adds a spectator to the game, with the added option of setting if this spectator should be a player
-        // (which is used by addPlayer and by playerLost)
-
         if (ServerManager.getInstance().isPlayer(player)) {
             ServerManager.getInstance().getGameByPlayer(player).playerQuit(player);
         } else if (ServerManager.getInstance().isSpectator(player)) {
@@ -121,14 +118,10 @@ public class GameObject extends Arena {
     }
 
     public void addSpectator(Player player) {
-        // adds a spectator to the game
-
         addSpectator(player, false);
     }
 
     public void removeSpectator(Player player) {
-        // removes a spectator from the game
-
         spectators.get(player.getName()).restore(player);
         spectators.remove(player.getName());
 
@@ -142,8 +135,6 @@ public class GameObject extends Arena {
     }
 
     public void killGame() {
-        // used on onDisable or when the game is deleted to return player's stuff, remove from hashmaps, etc
-
         broadcast(Statics.getReloadMessage());
 
         for (String p : players.keySet()) {
@@ -160,16 +151,10 @@ public class GameObject extends Arena {
     }
 
     public PlayerObject getPlayerObject(Player p) {
-        // gets the playerobject for a player
-
         return players.get(p.getName());
     }
 
     private void checkIfWin() {
-        // checks if the game has a winner
-        // is called by PlayerLost(Player) and PlayerQuit(Player)
-        // (and not by removePlayer(Player) because reasons
-
         if (currentState.partOfGame()) {
             if (players.size() == 1) {
                 for (String p : players.keySet()) {
@@ -229,8 +214,6 @@ public class GameObject extends Arena {
     }
 
     public void onWin() {
-        // runs when a player wins/when there is somehow 0 players
-
         currentState = GameState.GAME_ENDING;
 
         broadcast(Statics.getGameOverMessage());
@@ -252,8 +235,6 @@ public class GameObject extends Arena {
     }
 
     public void resetGame() {
-        // runs some time after onWin, resets game & adds spectating players to game
-
         currentState = GameState.WAITING_FOR_PLAYERS;
 
         broadcast(Statics.getResetMessage());
@@ -276,14 +257,10 @@ public class GameObject extends Arena {
     }
 
     public GameState getCurrentState() {
-        // gets the GameState that this game is currently in
-
         return currentState;
     }
 
     public void broadcast(String message) {
-        // sends a message to all players and spectators in this game instance
-
         for (String p : players.keySet()) {
             Bukkit.getPlayer(p).sendMessage(message);
         }

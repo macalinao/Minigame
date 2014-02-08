@@ -8,8 +8,6 @@ import tk.hintss.minigame.ServerManager;
 public class KillDeathCountListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
-        // increments kill/death counters
-
         if (ServerManager.getInstance().isPlayer(event.getEntity())) {
             if (ServerManager.getInstance().getGameByPlayer(event.getEntity()).getCurrentState().partOfGame()) {
                 ServerManager.getInstance().getGameByPlayer(event.getEntity()).getPlayerObject(event.getEntity()).addDeath();

@@ -22,7 +22,7 @@ public enum GameState {
     }
 
     public boolean partOfGame() {
-        // gets if this state is part of the actual game
+        // gets if this state is part of the actual game (should deaths and such count)
 
         return partOfGame;
     }
