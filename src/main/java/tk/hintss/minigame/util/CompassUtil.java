@@ -27,7 +27,6 @@ public class CompassUtil {
                     p.setCompassTarget(e.getLocation());
                 } else {
                     CompassUtil.resetCompass(p);
-                    this.cancel();
                 }
             }
         });
