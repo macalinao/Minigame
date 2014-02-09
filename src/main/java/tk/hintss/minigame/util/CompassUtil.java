@@ -23,11 +23,16 @@ public class CompassUtil {
         targets.put(p.getName(), new BukkitRunnable() {
             @Override
             public void run() {
-                p.setCompassTarget(e.getLocation());
+                if (e.isValid()) {
+                    p.setCompassTarget(e.getLocation());
+                } else {
+                    CompassUtil.resetCompass(p);
+                    this.cancel();
+                }
             }
         });
 
-        targets.get(p.getName()).runTaskTimer(Minigame.getInstance(), 0, 10);
+        targets.get(p.getName()).runTaskTimer(Minigame.getInstance(), 0, 5);
     }
 
     public static void resetCompass(Player p) {
