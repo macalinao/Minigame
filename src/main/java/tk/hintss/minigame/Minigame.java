@@ -3,6 +3,7 @@ package tk.hintss.minigame;
 import org.bukkit.plugin.java.JavaPlugin;
 import tk.hintss.minigame.listeners.KillDeathCountListener;
 import tk.hintss.minigame.listeners.PlayerQuitListener;
+import tk.hintss.minigame.listeners.SignListener;
 
 public class Minigame extends JavaPlugin {
     public static Minigame instance;
@@ -17,6 +18,7 @@ public class Minigame extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new KillDeathCountListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
+        getServer().getPluginManager().registerEvents(new SignListener(), this);
     }
 
     @Override
