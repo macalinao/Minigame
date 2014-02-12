@@ -12,6 +12,8 @@ public class Arena {
     private Location playerSpawn;
     private Location spectatorSpawn;
 
+    private boolean isGame = false;
+
     public Arena(String name, int minPlayers, int maxPlayers) {
         // constructor for making a new Arena (as in in the game, not as in the object)
 
@@ -32,6 +34,31 @@ public class Arena {
 
         playerSpawn = LocationUtil.locationFromString(s[3]);
         spectatorSpawn = LocationUtil.locationFromString(s[4]);
+
+        isGame = true;
+    }
+
+    public String saveToString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(name);
+        sb.append("|");
+        sb.append(minPlayers);
+        sb.append("|");
+        sb.append(maxPlayers);
+        sb.append("|");
+        sb.append(LocationUtil.stringFromLocation(playerSpawn));
+        sb.append("|");
+        sb.append(LocationUtil.stringFromLocation(spectatorSpawn));
+
+        return sb.toString();
+    }
+
+    public void upgrade() {
+        if (!isGame &&playerSpawn != null && spectatorSpawn != null) {
+            ServerManager.getInstance().newGame(saveToString());
+            ServerManager.getInstance().removeArena(name);
+        }
     }
 
     public String getName() {

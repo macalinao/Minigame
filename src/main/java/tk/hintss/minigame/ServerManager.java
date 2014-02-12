@@ -21,8 +21,7 @@ public class ServerManager {
         instance = this;
 
         for (String s : plugin.getConfig().getStringList("arenas")) {
-            GameObject g = new GameObject(s);
-            nameToGame.put(g.getName(), g);
+            newGame(s);
         }
     }
 
@@ -86,11 +85,20 @@ public class ServerManager {
         return nameToGame.get(name);
     }
 
+    public void newGame(String string) {
+        GameObject game = new GameObject(string);
+        nameToGame.put(game.getName(), game);
+    }
+
     public Arena getArenaByName(String name) {
         return nameToArena.get(name);
     }
 
     public void newArena(String name, int minPlayers, int maxPlayers) {
         nameToArena.put(name, new Arena(name, minPlayers, maxPlayers));
+    }
+
+    public void removeArena(String name) {
+        nameToArena.remove(name);
     }
 }
