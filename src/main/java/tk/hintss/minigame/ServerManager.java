@@ -2,7 +2,9 @@ package tk.hintss.minigame;
 
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ServerManager {
     private Minigame plugin;
@@ -76,9 +78,14 @@ public class ServerManager {
     }
 
     public void killGames() {
+        List<String> arenas = new ArrayList<String>();
+
         for (GameObject g : nameToGame.values()) {
             g.killGame();
+            arenas.add(g.saveToString());
         }
+
+        plugin.getConfig().set("arenas", arenas);
     }
 
     public GameObject getGameByName(String name) {
