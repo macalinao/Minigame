@@ -25,7 +25,7 @@ public class Arena {
     public Arena(String line) {
         // used by ServerManager/GameObject to load an arena from config
 
-        String[] s = line.split("|");
+        String[] s = line.split("\\|");
 
         name = s[0];
 
