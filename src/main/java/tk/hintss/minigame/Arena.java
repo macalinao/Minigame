@@ -83,6 +83,7 @@ public class Arena {
 
     public void setPlayerSpawn(Location loc) {
         this.playerSpawn = loc;
+        upgrade();
     }
 
     public Location getPlayerSpawn() {
@@ -91,6 +92,7 @@ public class Arena {
 
     public void setSpectatorSpawn(Location loc) {
         this.spectatorSpawn = loc;
+        upgrade();
     }
 
     public Location getSpectatorSpawn() {
