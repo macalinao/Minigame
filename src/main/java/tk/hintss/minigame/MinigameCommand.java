@@ -44,6 +44,7 @@ public class MinigameCommand implements CommandExecutor {
 
                                 if (ServerManager.getInstance().getGameByName(name) == null && ServerManager.getInstance().getArenaByName(name) == null) {
                                     ServerManager.getInstance().newArena(name, minPlayers, maxPlayers);
+                                    sender.sendMessage(ChatColor.GREEN + "You successfull created the arena!");
                                 } else {
                                     sender.sendMessage(ChatColor.RED + "That arena already exists!");
                                 }
@@ -62,6 +63,7 @@ public class MinigameCommand implements CommandExecutor {
                             if (ServerManager.getInstance().getArenaByName(args[1]) != null) {
                                 try {
                                     ServerManager.getInstance().getArenaByName(args[1]).setMinPlayers(Integer.parseInt(args[2]));
+                                    sender.sendMessage(ChatColor.GREEN + "Successfully set minimum player count!");
                                 } catch(NumberFormatException e) {
                                     sender.sendMessage(ChatColor.RED + "/" + Statics.gameName + " setMinPlayers <arenaName> <minPlayers>");
                                 }
@@ -80,6 +82,7 @@ public class MinigameCommand implements CommandExecutor {
                             if (ServerManager.getInstance().getArenaByName(args[1]) != null) {
                                 try {
                                     ServerManager.getInstance().getArenaByName(args[1]).setMaxPlayers(Integer.parseInt(args[2]));
+                                    sender.sendMessage(ChatColor.GREEN + "Successfully set max player count!");
                                 } catch(NumberFormatException e) {
                                     sender.sendMessage(ChatColor.RED + "/" + Statics.gameName + " setMaxPlayers <arenaName> <minPlayers>");
                                 }
@@ -97,6 +100,7 @@ public class MinigameCommand implements CommandExecutor {
                         if (args.length == 2) {
                             if (ServerManager.getInstance().getArenaByName(args[1]) != null) {
                                 ServerManager.getInstance().getArenaByName(args[1]).setPlayerSpawn(((Player) sender).getLocation());
+                                sender.sendMessage(ChatColor.GREEN + "Successfully set player spawn!");
                             } else {
                                 sender.sendMessage(ChatColor.RED + "That arena doesn't exist!");
                             }
@@ -111,6 +115,7 @@ public class MinigameCommand implements CommandExecutor {
                         if (args.length == 2) {
                             if (ServerManager.getInstance().getArenaByName(args[1]) != null) {
                                 ServerManager.getInstance().getArenaByName(args[1]).setSpectatorSpawn(((Player) sender).getLocation());
+                                sender.sendMessage(ChatColor.GREEN + "Successfully set spectator spawn!");
                             } else {
                                 sender.sendMessage(ChatColor.RED + "That arena doesn't exist!");
                             }
