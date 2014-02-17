@@ -241,6 +241,8 @@ public class GameObject extends Arena {
 
         int count = 0;
 
+        players.clear();
+
         Iterator<Map.Entry<String, PlayerOrigin>> iter = spectators.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<String, PlayerOrigin> entry = iter.next();
