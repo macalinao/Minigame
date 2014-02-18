@@ -6,9 +6,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import tk.hintss.minigame.util.CompassUtil;
 import tk.hintss.minigame.util.WorldResetter;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class GameObject extends Arena {
     private HashMap<String, PlayerObject> players = new HashMap<String, PlayerObject>();
@@ -16,7 +14,7 @@ public class GameObject extends Arena {
 
     private GameState currentState = GameState.WAITING_FOR_PLAYERS;
 
-    private BukkitRunnable timerObject;
+    private ArrayList<BukkitRunnable> schedulers = new ArrayList<BukkitRunnable>();
 
     public GameObject(String s) {
         super(s);
@@ -135,6 +133,7 @@ public class GameObject extends Arena {
     }
 
     public void killGame() {
+        killTasks();
         broadcast(Statics.getReloadMessage());
 
         for (String p : players.keySet()) {
@@ -174,7 +173,7 @@ public class GameObject extends Arena {
         if (currentState == GameState.GAME_STARTING) {
             if (players.size() < getMinPlayers()) {
                 broadcast(Statics.getTooFewMessage());
-                timerObject.cancel();
+                killTasks();
             }
 
             if (players.size() < getMaxPlayers()) {
@@ -193,27 +192,31 @@ public class GameObject extends Arena {
         // runs when the minPlayers is met
 
         if (currentState == GameState.WAITING_FOR_PLAYERS) {
+            killTasks();
             currentState = GameState.GAME_STARTING;
 
             broadcast(Statics.getPlayersMetMessage(getMinPlayers()));
-            timerObject = new BukkitRunnable() {
+            BukkitRunnable timerObject = new BukkitRunnable() {
                 @Override
                 public void run() {
                     startGame();
                 }
             };
             timerObject.runTaskLater(Minigame.getInstance(), Statics.gameStartDelay);
+            schedulers.add(timerObject);
         }
     }
 
     public void startGame() {
         // runs when the start countdown is over
 
+        killTasks();
         currentState = GameState.GAME_GOING;
         broadcast(Statics.getGameStartMessage());
     }
 
     public void onWin() {
+        killTasks();
         currentState = GameState.GAME_ENDING;
 
         broadcast(Statics.getGameOverMessage());
@@ -225,16 +228,18 @@ public class GameObject extends Arena {
             addSpectator(Bukkit.getPlayer(entry.getKey()));
         }
 
-        timerObject = new BukkitRunnable() {
+        BukkitRunnable timerObject = new BukkitRunnable() {
             @Override
             public void run() {
                 resetGame();
             }
         };
         timerObject.runTaskLater(Minigame.getInstance(), Statics.gameResetDelay);
+        schedulers.add(timerObject);
     }
 
     public void resetGame() {
+        killTasks();
         currentState = GameState.WAITING_FOR_PLAYERS;
 
         broadcast(Statics.getResetMessage());
@@ -270,5 +275,13 @@ public class GameObject extends Arena {
         for (String p : spectators.keySet()) {
             Bukkit.getPlayer(p).sendMessage(message);
         }
+    }
+
+    public void killTasks() {
+        for (BukkitRunnable b : schedulers) {
+            b.cancel();
+        }
+
+        schedulers.clear();
     }
 }
