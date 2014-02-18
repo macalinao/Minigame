@@ -136,12 +136,14 @@ public class GameObject extends Arena {
         killTasks();
         broadcast(Statics.getReloadMessage());
 
-        for (String p : players.keySet()) {
-            removePlayer(Bukkit.getPlayer(p));
+        Iterator<Map.Entry<String, PlayerObject>> iter = players.entrySet().iterator();
+        while (iter.hasNext()) {
+            removePlayer(Bukkit.getPlayer(iter.next().getKey()));
         }
 
-        for (String p : spectators.keySet()) {
-            removeSpectator(Bukkit.getPlayer(p));
+        Iterator<Map.Entry<String, PlayerOrigin>> iterator = spectators.entrySet().iterator();
+        while (iterator.hasNext()) {
+            removeSpectator(Bukkit.getPlayer(iter.next().getKey()));
         }
 
         if (Statics.resetWorlds) {
