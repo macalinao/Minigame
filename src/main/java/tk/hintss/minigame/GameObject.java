@@ -194,7 +194,6 @@ public class GameObject extends Arena {
         // runs when the minPlayers is met
 
         if (currentState == GameState.WAITING_FOR_PLAYERS) {
-            killTasks();
             currentState = GameState.GAME_STARTING;
 
             broadcast(Statics.getPlayersMetMessage(getMinPlayers()));
@@ -212,7 +211,6 @@ public class GameObject extends Arena {
     public void startGame() {
         // runs when the start countdown is over
 
-        killTasks();
         currentState = GameState.GAME_GOING;
         broadcast(Statics.getGameStartMessage());
     }
@@ -227,7 +225,7 @@ public class GameObject extends Arena {
         while (iter.hasNext()) {
             Map.Entry<String, PlayerObject> entry = iter.next();
             removePlayer(Bukkit.getPlayer(entry.getKey()));
-            addSpectator(Bukkit.getPlayer(entry.getKey()));
+            addSpectator(Bukkit.getPlayer(entry.getKey()), true);
         }
 
         BukkitRunnable timerObject = new BukkitRunnable() {
