@@ -16,6 +16,7 @@ public class Minigame extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new KillDeathCountListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
+        getServer().getPluginManager().registerEvents(new PrePostGameListener(), this);
         getServer().getPluginManager().registerEvents(new SignListener(), this);
         getServer().getPluginManager().registerEvents(new SpectatorListener(), this);
     }
