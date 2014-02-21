@@ -8,8 +8,8 @@ public class Statics {
 
     public static final boolean resetWorlds = true;
 
-    public static final int gameStartDelay = 20*60;
-    public static final int gameResetDelay = 20*20;
+    public static final int gameStartDelay = 60;
+    public static final int gameResetDelay = 20;
 
     public static String getPlayersMetMessage(int minPlayers) {
         return ChatColor.GREEN + "We have " + String.valueOf(minPlayers) + " players, the game will start in " + Integer.valueOf(gameStartDelay / 20) + " seconds!";
@@ -22,6 +22,8 @@ public class Statics {
     public static String getGameStartMessage() {
         return ChatColor.GREEN + "The game is starting!";
     }
+
+    public static final String gameStartTimer = ChatColor.GREEN + "The game will start in " + ChatColor.YELLOW + "%s" + ChatColor.GREEN + "!";
 
     public static String getPlayerJoinMessage(Player p, int players, int min, int max) {
         if (players < min) {
@@ -44,6 +46,8 @@ public class Statics {
     public static String getGameOverMessage() {
         return ChatColor.GREEN + "The game is now over!";
     }
+
+    public static final String gameResetTimer = ChatColor.GREEN + "The game will reset in " + ChatColor.YELLOW + "%s" + ChatColor.GREEN + "!";
 
     public static String getResetMessage() {
         return ChatColor.GREEN + "The next game is starting!";

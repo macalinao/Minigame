@@ -46,7 +46,9 @@ public class CountdownTask extends BukkitRunnable {
                     }
                 }
             }
-        } else if (time <= 0) {
+        }
+
+        if (time <= 1) {
             this.cancel();
         }
 

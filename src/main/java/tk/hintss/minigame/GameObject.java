@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import tk.hintss.minigame.util.CompassUtil;
+import tk.hintss.minigame.util.CountdownTask;
 import tk.hintss.minigame.util.WorldResetter;
 
 import java.util.*;
@@ -203,7 +204,11 @@ public class GameObject extends Arena {
                     startGame();
                 }
             };
-            timerObject.runTaskLater(Minigame.getInstance(), Statics.gameStartDelay);
+            timerObject.runTaskLater(Minigame.getInstance(), Statics.gameStartDelay * 20);
+            schedulers.add(timerObject);
+
+            timerObject = new CountdownTask(players.keySet(), Statics.gameStartDelay, Statics.gameStartTimer);
+            timerObject.runTaskTimer(Minigame.getInstance(), 0, 20);
             schedulers.add(timerObject);
         }
     }
@@ -234,7 +239,11 @@ public class GameObject extends Arena {
                 resetGame();
             }
         };
-        timerObject.runTaskLater(Minigame.getInstance(), Statics.gameResetDelay);
+        timerObject.runTaskLater(Minigame.getInstance(), Statics.gameResetDelay * 20);
+        schedulers.add(timerObject);
+
+        timerObject = new CountdownTask(players.keySet(), Statics.gameResetDelay, Statics.gameResetTimer);
+        timerObject.runTaskTimer(Minigame.getInstance(), 0, 20);
         schedulers.add(timerObject);
     }
 
