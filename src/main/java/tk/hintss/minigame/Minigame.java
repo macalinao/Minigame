@@ -24,6 +24,7 @@ public class Minigame extends JavaPlugin {
     @Override
     public void onDisable() {
         ServerManager.getInstance().killGames();
+        saveConfig();
     }
 
     public static Minigame getInstance() {
