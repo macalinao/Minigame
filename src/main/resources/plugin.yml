@@ -1,0 +1,9 @@
+name: Minigame
+version: 1.0
+description: boilerplate minigame plugin
+author: hintss
+main: tk.hintss.minigame.Minigame
+
+commands:
+  minigame:
+    description: main command
