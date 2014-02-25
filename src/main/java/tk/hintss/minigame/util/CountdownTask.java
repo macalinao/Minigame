@@ -42,7 +42,7 @@ public class CountdownTask extends BukkitRunnable {
             if (seconds.contains(time)) {
                 for (String p : players) {
                     if (Bukkit.getPlayer(p) != null) {
-                        Bukkit.getPlayer(p).sendMessage(String.format(line, String.valueOf(time) + "seconds"));
+                        Bukkit.getPlayer(p).sendMessage(String.format(line, String.valueOf(time) + " seconds"));
                     }
                 }
             }
