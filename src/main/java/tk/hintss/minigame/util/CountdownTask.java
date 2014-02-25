@@ -34,7 +34,11 @@ public class CountdownTask extends BukkitRunnable {
             if (minutes.contains(time / 60)) {
                 for (String p : players) {
                     if (Bukkit.getPlayer(p) != null) {
-                        Bukkit.getPlayer(p).sendMessage(String.format(line, String.valueOf(time / 60) + " minutes"));
+                        if (time / 60 == 1) {
+                            Bukkit.getPlayer(p).sendMessage(String.format(line, String.valueOf(time / 60) + " minute"));
+                        } else {
+                            Bukkit.getPlayer(p).sendMessage(String.format(line, String.valueOf(time / 60) + " minutes"));
+                        }
                     }
                 }
             }
@@ -42,7 +46,11 @@ public class CountdownTask extends BukkitRunnable {
             if (seconds.contains(time)) {
                 for (String p : players) {
                     if (Bukkit.getPlayer(p) != null) {
-                        Bukkit.getPlayer(p).sendMessage(String.format(line, String.valueOf(time) + " seconds"));
+                        if (time == 1) {
+                            Bukkit.getPlayer(p).sendMessage(String.format(line, String.valueOf(time) + " second"));
+                        } else {
+                            Bukkit.getPlayer(p).sendMessage(String.format(line, String.valueOf(time) + " seconds"));
+                        }
                     }
                 }
             }
