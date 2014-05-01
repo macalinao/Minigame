@@ -36,7 +36,11 @@ public class PlayerOrigin {
         this.inv = player.getInventory().getContents();
         this.armor = player.getInventory().getArmorContents();
 
+        player.getInventory().clear();
+
         this.exp = player.getTotalExperience();
+
+        player.setTotalExperience(0);
     }
 
     public void restore(Player player) {
