@@ -40,18 +40,20 @@ public class PlayerOrigin {
     }
 
     public void restore(Player player) {
-        player.getInventory().clear();
+        if (player.getName().equals(name)) {
+            player.getInventory().clear();
 
-        player.teleport(originLoc);
+            player.teleport(originLoc);
 
-        player.setHealth(health);
-        player.setFoodLevel(food);
-        player.setSaturation(saturation);
+            player.setHealth(health);
+            player.setFoodLevel(food);
+            player.setSaturation(saturation);
 
-        player.getInventory().setContents(inv);
-        player.getInventory().setArmorContents(armor);
+            player.getInventory().setContents(inv);
+            player.getInventory().setArmorContents(armor);
 
-        player.setTotalExperience(exp);
+            player.setTotalExperience(exp);
+        }
     }
 
     public String getName() {
