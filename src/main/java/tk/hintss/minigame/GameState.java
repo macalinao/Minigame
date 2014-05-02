@@ -14,7 +14,7 @@ public enum GameState {
         this.partOfGame = partOfGame;
     }
 
-    public boolean getCanJoin() {
+    public boolean canJoin() {
         // gets if this is a state where people can join the game
         // if it's not, they will be added as a spectator
 

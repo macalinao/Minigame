@@ -28,16 +28,14 @@ public class GameObject extends Arena {
     public void addPlayer(Player player) {
         // adds a player to the game, teleports them in, saves their inv, all that jazz
 
-        if (currentState.getCanJoin() && players.size() < getMaxPlayers()) {
+        if (currentState.canJoin() && players.size() < getMaxPlayers()) {
             if (ServerManager.getInstance().isPlayer(player)) {
                 ServerManager.getInstance().getGameByPlayer(player).playerQuit(player);
             } else if (ServerManager.getInstance().isSpectator(player)) {
                 ServerManager.getInstance().getGameByPlayer(player).removeSpectator(player);
             }
 
-            players.put(player.getName(), new PlayerObject(player, true));
-
-            player.getInventory().clear();
+            players.put(player.getName(), new PlayerObject(player));
 
             ServerManager.getInstance().addPlayer(player, this);
 
@@ -62,7 +60,7 @@ public class GameObject extends Arena {
         // removes a player from the game
         // does not do any checks for wins, as this might be called by reload logic
 
-        players.get(player.getName()).restore(player);
+        players.get(player.getName()).getOrigin().restore(player);
         players.remove(player.getName());
 
         ServerManager.getInstance().removePlayer(player);
@@ -177,6 +175,7 @@ public class GameObject extends Arena {
             if (players.size() < getMinPlayers()) {
                 broadcast(Statics.getTooFewMessage());
                 killTasks();
+                currentState = GameState.WAITING_FOR_PLAYERS;
             }
 
             if (players.size() < getMaxPlayers()) {
@@ -226,11 +225,11 @@ public class GameObject extends Arena {
 
         broadcast(Statics.getGameOverMessage());
 
-        Iterator<Map.Entry<String, PlayerObject>> iter = players.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry<String, PlayerObject> entry = iter.next();
-            removePlayer(Bukkit.getPlayer(entry.getKey()));
-            addSpectator(Bukkit.getPlayer(entry.getKey()), true);
+        Set<String> playerList = new HashSet<String>(players.keySet());
+
+        for (String p : playerList) {
+            removePlayer(Bukkit.getPlayer(p));
+            addSpectator(Bukkit.getPlayer(p), true);
         }
 
         BukkitRunnable timerObject = new BukkitRunnable() {

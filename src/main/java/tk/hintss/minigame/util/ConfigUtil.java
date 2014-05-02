@@ -3,7 +3,7 @@ package tk.hintss.minigame.util;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-public class LocationUtil {
+public class ConfigUtil {
     public static Location locationFromString(String location) {
         // takes a String of the form [world:]x:y:z[:yaw:pitch] and returns a location
 

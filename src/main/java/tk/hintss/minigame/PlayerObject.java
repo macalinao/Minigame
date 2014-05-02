@@ -2,12 +2,18 @@ package tk.hintss.minigame;
 
 import org.bukkit.entity.Player;
 
-public class PlayerObject extends PlayerOrigin {
+public class PlayerObject {
+    private PlayerOrigin origin;
+
     private int kills = 0;
     private int deaths = 0;
 
-    public PlayerObject(Player player, boolean isPlayer) {
-        super(player, isPlayer);
+    public PlayerObject(Player player) {
+        this.origin = new PlayerOrigin(player, true);
+    }
+
+    public PlayerObject(Player player, PlayerOrigin origin) {
+        this.origin = origin;
     }
 
     public int getKills() {
@@ -15,8 +21,6 @@ public class PlayerObject extends PlayerOrigin {
     }
 
     public void addKill() {
-        // adds one to this player's kill counter
-
         kills++;
     }
 
@@ -25,8 +29,10 @@ public class PlayerObject extends PlayerOrigin {
     }
 
     public void addDeath() {
-        // adds one to this player's death counter
-
         deaths++;
+    }
+
+    public PlayerOrigin getOrigin() {
+        return origin;
     }
 }

@@ -1,7 +1,7 @@
 package tk.hintss.minigame;
 
 import org.bukkit.Location;
-import tk.hintss.minigame.util.LocationUtil;
+import tk.hintss.minigame.util.ConfigUtil;
 
 public class Arena {
     private String name;
@@ -32,8 +32,8 @@ public class Arena {
         minPlayers = Integer.valueOf(s[1]);
         maxPlayers = Integer.valueOf(s[2]);
 
-        playerSpawn = LocationUtil.locationFromString(s[3]);
-        spectatorSpawn = LocationUtil.locationFromString(s[4]);
+        playerSpawn = ConfigUtil.locationFromString(s[3]);
+        spectatorSpawn = ConfigUtil.locationFromString(s[4]);
 
         isGame = true;
     }
@@ -47,9 +47,9 @@ public class Arena {
         sb.append("|");
         sb.append(maxPlayers);
         sb.append("|");
-        sb.append(LocationUtil.stringFromLocation(playerSpawn));
+        sb.append(ConfigUtil.stringFromLocation(playerSpawn));
         sb.append("|");
-        sb.append(LocationUtil.stringFromLocation(spectatorSpawn));
+        sb.append(ConfigUtil.stringFromLocation(spectatorSpawn));
 
         return sb.toString();
     }
