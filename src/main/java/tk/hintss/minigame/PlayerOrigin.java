@@ -12,6 +12,7 @@ public class PlayerOrigin {
     private boolean isPlayer;
 
     private final Location originLoc;
+    private final Location compassTarget;
 
     private final double health;
     private final int food;
@@ -28,6 +29,7 @@ public class PlayerOrigin {
         this.isPlayer = isPlayer;
 
         this.originLoc = player.getLocation();
+        this.compassTarget = player.getCompassTarget();
 
         this.health = player.getHealth();
         this.food = player.getFoodLevel();
@@ -48,6 +50,7 @@ public class PlayerOrigin {
             player.getInventory().clear();
 
             player.teleport(originLoc);
+            player.setCompassTarget(compassTarget);
 
             player.setHealth(health);
             player.setFoodLevel(food);
