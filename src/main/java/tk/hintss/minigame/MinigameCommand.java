@@ -44,7 +44,7 @@ public class MinigameCommand implements CommandExecutor {
 
                                 if (ServerManager.getInstance().getGameByName(name) == null && ServerManager.getInstance().getArenaByName(name) == null) {
                                     ServerManager.getInstance().newArena(name, minPlayers, maxPlayers);
-                                    sender.sendMessage(ChatColor.GREEN + "You successfull created the arena!");
+                                    sender.sendMessage(ChatColor.GREEN + "You have successfully created the arena!");
                                 } else {
                                     sender.sendMessage(ChatColor.RED + "That arena already exists!");
                                 }
